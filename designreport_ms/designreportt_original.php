@@ -197,7 +197,6 @@ $list_view=<<<EOT
 		<a role="button" class="btn btn-warning btn-lg p-4 m-2 size20 weight" style="width:350px;" href="/?ch=designreport_01&fm=designreport" target="_blank"><i class="bi bi-journal-text"></i>&nbsp;對志特採購總表</a>
 		<a role="button" class="btn btn-warning btn-lg p-4 m-2 size20 weight" style="width:350px;" href="/?ch=designreport_02&fm=designreport" target="_blank"><i class="bi bi-journal-text"></i>&nbsp;&nbsp;禾登豐業績表</a>
 		<a role="button" class="btn btn-warning btn-lg p-4 m-2 size20 weight" style="width:350px;" href="/?ch=designreport_03&fm=designreport" target="_blank"><i class="bi bi-journal-text"></i>&nbsp;&nbsp;工程數量表</a>
-		<a role="button" class="btn btn-warning btn-lg p-4 m-2 size20 weight" style="width:350px;" href="/?ch=designreport_04&fm=designreport" target="_blank"><i class="bi bi-journal-text"></i>&nbsp;&nbsp;年度工程紀錄表</a>
 	</div>
 </div>
 EOT;

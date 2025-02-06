@@ -42,24 +42,74 @@ $mDB = "";
 $mDB = new MywebDB();
 
 
-$Qry = "SELECT 
-    a.*, 
-    b1.subcontractor_name AS subcontractor_name1,
-    b2.subcontractor_name AS subcontractor_name2,
-    b3.subcontractor_name AS subcontractor_name3,
-    b4.subcontractor_name AS subcontractor_name4,
-	c.builder_name AS builder_name,
-	d.contractor_name AS contractor_name
+//載入案件編號 並只取年分
+if ((($super_advanced == "Y") && ($advanced_readonly <> "Y")) && ($super_admin <> "Y")) {
+	$Qry = "SELECT MIN(case_id) AS case_id
+FROM CaseManagement
+GROUP BY LEFT(case_id, 2)
+ORDER BY case_id;";
+} else {
+	$Qry = "SELECT MIN(case_id) AS case_id
+FROM CaseManagement
+GROUP BY LEFT(case_id, 2)
+ORDER BY case_id;";
+}
 
-  
-FROM CaseManagement a
-LEFT JOIN subcontractor b1 ON a.subcontractor_id1 = b1.subcontractor_id
-LEFT JOIN subcontractor b2 ON a.subcontractor_id2 = b2.subcontractor_id
-LEFT JOIN subcontractor b3 ON a.subcontractor_id3 = b3.subcontractor_id
-LEFT JOIN subcontractor b4 ON a.subcontractor_id4 = b4.subcontractor_id
-LEFT JOIN builder c ON a.builder_id = c.builder_id 
-LEFT JOIN contractor d ON a.contractor_id = d.contractor_id
-ORDER BY a.case_id;";
+$mDB->query($Qry);
+
+
+$year_dropdown = "";
+$year_dropdown = "<select class=\"inline form-select\" name=\"case_year\" id=\"case_year\" style=\"width:auto;\">";
+$year_dropdown .= "<option></option>";
+
+if ($mDB->rowCount() > 0) {
+    while ($row = $mDB->fetchRow(2)) {
+        $case_id = $row['case_id'];
+        $case_year = "20" . substr($case_id, 0, 2); // 轉換為 20xx 年格式
+
+        $year_dropdown .= "<option value='$case_id'>$case_year</option>";
+    }
+}
+$year_dropdown .= "</select>";
+
+$get_case_id = isset($_GET['case_year']) ? $_GET['case_year'] : ''; // 避免 Undefined index 錯誤
+
+if (!empty($get_case_id)) {  // 只有當 case_id 有值時，才加 WHERE 條件
+    $Qry = "SELECT 
+        a.*, 
+        b1.subcontractor_name AS subcontractor_name1,
+        b2.subcontractor_name AS subcontractor_name2,
+        b3.subcontractor_name AS subcontractor_name3,
+        b4.subcontractor_name AS subcontractor_name4,
+        c.builder_name AS builder_name,
+        d.contractor_name AS contractor_name
+    FROM CaseManagement a
+    LEFT JOIN subcontractor b1 ON a.subcontractor_id1 = b1.subcontractor_id
+    LEFT JOIN subcontractor b2 ON a.subcontractor_id2 = b2.subcontractor_id
+    LEFT JOIN subcontractor b3 ON a.subcontractor_id3 = b3.subcontractor_id
+    LEFT JOIN subcontractor b4 ON a.subcontractor_id4 = b4.subcontractor_id
+    LEFT JOIN builder c ON a.builder_id = c.builder_id 
+    LEFT JOIN contractor d ON a.contractor_id = d.contractor_id
+    WHERE a.case_id = '$get_case_id'
+    ORDER BY a.case_id";
+} else {
+    $Qry = "SELECT 
+        a.*,  
+        b1.subcontractor_name AS subcontractor_name1,
+        b2.subcontractor_name AS subcontractor_name2,
+        b3.subcontractor_name AS subcontractor_name3,
+        b4.subcontractor_name AS subcontractor_name4,
+        c.builder_name AS builder_name,
+        d.contractor_name AS contractor_name
+    FROM CaseManagement a
+    LEFT JOIN subcontractor b1 ON a.subcontractor_id1 = b1.subcontractor_id
+    LEFT JOIN subcontractor b2 ON a.subcontractor_id2 = b2.subcontractor_id
+    LEFT JOIN subcontractor b3 ON a.subcontractor_id3 = b3.subcontractor_id
+    LEFT JOIN subcontractor b4 ON a.subcontractor_id4 = b4.subcontractor_id
+    LEFT JOIN builder c ON a.builder_id = c.builder_id 
+    LEFT JOIN contractor d ON a.contractor_id = d.contractor_id
+    ORDER BY a.case_id";
+}
 
 $mDB->query($Qry);
 $casereport_list = "";
@@ -73,8 +123,19 @@ EOT;
 
 $total = $mDB->rowCount();
 if ($total > 0) {
+	
 
 	$casereport_list .= <<<EOT
+	<form method="get">
+		<div class="w-100 p-3 m-auto text-center">
+		<input type="hidden" name="ch" value="designreport_04">
+		<input type="hidden" name="fm" value="designreport">
+		<div class="inline size12 weight text-nowrap vtop mb-2 me-2">年份 : $year_dropdown</div>
+
+		<input type="submit" class="btn btn-primary" value="查詢">
+	</form>
+	
+</div>
 	<table class="table table-bordered border-dark w-100">
 		<thead class="table-light border-dark">
 			<tr style="border-bottom: 1px solid #000;">
@@ -312,7 +373,7 @@ $show_report = <<<EOT
 		<div class="mycell" style="width:20%;">
 		</div>
 		<div class="mycell weight pt-5 pb-4 text-center">
-			<h3>對志特採購總表</h3>
+			<h3>年度工程紀錄表</h3>
 		</div>
 		<div class="mycell text-end p-2 vbottom" style="width:20%;">
 			<div class="btn-group print"  role="group" style="position:fixed;top: 10px; right:10px;z-index: 9999;">
@@ -354,12 +415,5 @@ table.table-bordered > tbody > tr > td {
 $show_report
 
 EOT;
-
-function dd($var)
-{
-	echo "<pre>";
-	print_r($var);
-	echo "</pre>";
-}
 
 ?>
