@@ -124,7 +124,7 @@ $status2_dropdown .= "</select>";
 $get_status2 = isset($_GET['status2']) ? $_GET['status2'] : ''; // 避免 Undefined index 錯誤
 
 if (!empty($get_case_year)) {
-    $Qry = "SELECT 
+	$Qry = "SELECT 
         a.*,  
         b1.subcontractor_name AS subcontractor_name1,
         b2.subcontractor_name AS subcontractor_name2,
@@ -142,14 +142,14 @@ if (!empty($get_case_year)) {
     WHERE 1=1 
     AND a.case_id LIKE '$get_case_year_%'";
 
-    if (!empty($get_status1)) {
-        $Qry .= " AND a.status1 = '$get_status1'";
-    }
-    if (!empty($get_status2)) {
-        $Qry .= " AND a.status2 = '$get_status2'";
-    }
+	if (!empty($get_status1)) {
+		$Qry .= " AND a.status1 = '$get_status1'";
+	}
+	if (!empty($get_status2)) {
+		$Qry .= " AND a.status2 = '$get_status2'";
+	}
 
-    $Qry .= " ORDER BY a.case_id";
+	$Qry .= " ORDER BY a.case_id";
 } else {
 	$Qry = "SELECT 
         a.*,  
@@ -274,8 +274,8 @@ EOT;
 		$data['ContractingModel'] = $row['ContractingModel']; // 承包模式
 		$data['Handler'] = $row['Handler']; // 負責人
 		$data['buildings'] = $row['buildings']; // 建築物棟數
-		$data['first_review_date'] = $row['first_review_date']; // 初審日期
-		$data['estimated_return_date'] = $row['estimated_return_date']; // 預估回件日期
+		$data['first_review_date'] = ($row['first_review_date'] == '0000-00-00') ? '' : $row['first_review_date']; // 初審日期
+		$data['estimated_return_date'] = ($row['estimated_return_date'] == '0000-00-00') ? '' : $row['estimated_return_date']; // 預估回饋日期
 		$data['preliminary_status'] = $row['preliminary_status']; // 初步狀態
 		$data['remark'] = $row['remark']; // 備註
 		$data['engineering_qty'] = $row['engineering_qty']; // 工程數量
@@ -285,26 +285,26 @@ EOT;
 		$data['OEM_cost'] = $row['OEM_cost']; // 代工成本
 		$data['quotation_amt'] = $row['quotation_amt']; // 報價金額
 		$data['quotation_sended'] = $row['quotation_sended']; // 報價是否發送
-		$data['quotation_date'] = $row['quotation_date']; // 報價日期
-		$data['estimated_arrival_date'] = $row['estimated_arrival_date']; // 預計到貨日期
-		$data['actual_entry_date'] = $row['actual_entry_date']; // 實際進場日期
-		$data['completion_date'] = $row['completion_date']; // 完工日期
-		$data['contract_date'] = $row['contract_date']; // 合約日期
+		$data['quotation_date'] = ($row['quotation_date'] == '0000-00-00') ? '' : $row['quotation_date']; // 報價日期
+		$data['estimated_arrival_date'] = ($row['estimated_arrival_date'] == '0000-00-00') ? '' : $row['estimated_arrival_date']; // 預計到貨日期
+		$data['actual_entry_date'] = ($row['actual_entry_date'] == '0000-00-00') ? '' : $row['actual_entry_date']; // 實際進場日期
+		$data['completion_date'] = ($row['completion_date'] == '0000-00-00') ? '' : $row['completion_date']; // 完工日期
+		$data['contract_date'] = ($row['contract_date'] == '0000-00-00') ? '' : $row['contract_date']; // 合約日期
 		$data['advance_payment1'] = $row['advance_payment1']; // 預付款1
-		$data['estimated_payment_date1'] = $row['estimated_payment_date1']; // 預估付款日期1
-		$data['request_date1'] = $row['request_date1']; // 請款日期1
+		$data['estimated_payment_date1'] = ($row['estimated_payment_date1'] == '0000-00-00') ? '' : $row['estimated_payment_date1']; // 預估付款日期1
+		$data['request_date1'] = ($row['request_date1'] == '0000-00-00') ? '' : $row['request_date1']; // 請款日期1
 		$data['advance_payment2'] = $row['advance_payment2']; // 預付款2
-		$data['estimated_payment_date2'] = $row['estimated_payment_date2']; // 預估付款日期2
-		$data['request_date2'] = $row['request_date2']; // 請款日期2
+		$data['estimated_payment_date2'] = ($row['estimated_payment_date2'] == '0000-00-00') ? '' : $row['estimated_payment_date2']; // 預估付款日期2
+		$data['request_date2'] = ($row['request_date2'] == '0000-00-00') ? '' : $row['request_date2']; // 請款日期2
 		$data['advance_payment3'] = $row['advance_payment3']; // 預付款3
-		$data['estimated_payment_date3'] = $row['estimated_payment_date3']; // 預估付款日期3
-		$data['request_date3'] = $row['request_date3']; // 請款日期3
+		$data['estimated_payment_date3'] = ($row['estimated_payment_date3'] == '0000-00-00') ? '' : $row['estimated_payment_date3']; // 預估付款日期3
+		$data['request_date3'] = ($row['request_date3'] == '0000-00-00') ? '' : $row['request_date3']; // 請款日期3
 		$data['geto_no'] = $row['geto_no']; // GETO編號
 		$data['geto_quotation'] = $row['geto_quotation']; // GETO報價
-		$data['geto_order_date'] = $row['geto_order_date']; // GETO訂單日期
-		$data['geto_contract_date'] = $row['geto_contract_date']; // GETO合約日期
+		$data['geto_order_date'] = ($row['geto_order_date'] == '0000-00-00') ? '' : $row['geto_order_date']; // GETO訂單日期
+		$data['geto_contract_date'] = ($row['geto_contract_date'] == '0000-00-00') ? '' : $row['geto_contract_date']; // GETO合約日期
 		$data['geto_formwork'] = $row['geto_formwork']; // GETO鋁板材料
-		$data['material_import_date'] = $row['material_import_date']; // 材料進口日期
+		$data['material_import_date'] = ($row['material_import_date'] == '0000-00-00') ? '' : $row['material_import_date']; // 材料進口日期
 		$data['ERP_no'] = $row['ERP_no']; // ERP編號
 		$data['buildings_contract'] = $row['buildings_contract']; // 合約承攬建物棟數
 		$data['total_contract_amt'] = $row['total_contract_amt']; // 總合約金額
