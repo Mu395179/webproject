@@ -286,7 +286,7 @@ EOT;
 		$data['quotation_amt'] = $row['quotation_amt']; // 報價金額
 		$data['quotation_sended'] = $row['quotation_sended']; // 報價是否發送
 		$data['quotation_date'] = ($row['quotation_date'] == '0000-00-00') ? '' : $row['quotation_date']; // 報價日期
-		$data['estimated_arrival_date'] = ($row['estimated_arrival_date'] == '0000-00-00') ? '' : $row['estimated_arrival_date']; // 預計到貨日期
+		$data['estimated_arrival_date'] = ($row['estimated_arrival_date'] == '0000-00-00') ? '' : $row['estimated_arrival_date']; // 預計進場日期
 		$data['actual_entry_date'] = ($row['actual_entry_date'] == '0000-00-00') ? '' : $row['actual_entry_date']; // 實際進場日期
 		$data['completion_date'] = ($row['completion_date'] == '0000-00-00') ? '' : $row['completion_date']; // 完工日期
 		$data['contract_date'] = ($row['contract_date'] == '0000-00-00') ? '' : $row['contract_date']; // 合約日期
